@@ -1,0 +1,76 @@
+<!-- FloorAndCeil -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FloorAndCeil</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+	<script>
+		
+	var MyApp = angular.module('myApp',[]);
+
+	MyApp.controller('myCtrl', ['$scope' ,function($scope){
+
+	// 500毎に切り下げる関数
+	$scope.floorFiveHundred = function(){
+		var num = $scope.num;
+
+		if((num % 1000) == 0){
+			// 入力値が1000の倍数である場合、計算不要
+			return num;
+		}
+
+		// 百桁の値を保持
+		var hundredDigit = Math.floor(num / 1000);
+		
+		if((num % 1000) >= 500){
+			// 下３桁が500以上の場合
+			return (hundredDigit * 1000) + 500;
+		}
+		else if((num % 1000) < 500){
+			// 下３桁が500より下の場合
+			return hundredDigit * 1000;
+		}
+		else{
+			return num;
+		}
+	};
+
+	// 500毎に切り上げする関数
+	$scope.ceilFiveHundred = function(){
+		var num = $scope.num;
+
+		if((num % 1000) == 0){
+			// 1000の倍数である場合
+			return num;
+		}
+
+		// 百桁の値を保持
+		var hundredDigit = Math.floor(num / 1000);
+		
+		if((num % 1000) > 500){
+			// 下３桁が500より上の場合
+			return (hundredDigit + 1) * 1000;
+		}
+		else if((num % 1000) <= 500){
+			// 下３桁が500以下の場合
+			return (hundredDigit * 1000) + 500;
+		}
+		else{
+			return num;
+		}
+	};
+
+	}]);
+
+	</script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+	<h2>500の切り捨て/切り上げ計算</h2>	
+	<input teyp="number" placeholder="enter number" ng-model="num"></input>
+	<div>切り捨て:{{floorFiveHundred()}}</div>
+	<div>切り上げ:{{ceilFiveHundred()}}</div>
+</body>
+</html>
